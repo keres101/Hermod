@@ -15,6 +15,10 @@ app.get('/', (req, res) => {
 
 userRouter(app, API_PATH)
 
+app.use((error, req, res, next) => {
+  res.json({ message: 'error occurred', error })
+})
+
 app.listen(PORT, () => {
   console.log('Server listening on port ' + PORT)
 })
