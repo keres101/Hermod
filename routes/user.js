@@ -14,6 +14,11 @@ const userRouter = (app, apiPath) => {
     const data = req.body
     res.json(data)
   })
+
+  router.post('/login', (req, res) => {
+    const data = req.body
+    res.json(data)
+  })
 }
 
 export default userRouter
