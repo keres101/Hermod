@@ -1,4 +1,6 @@
 import express from 'express'
+import { createUserSchema } from '../util/schemas/user.js'
+import validateSchema from '../util/middleware/validateSchema.js'
 
 const userRouter = (app, apiPath) => {
   const router = express.Router()
@@ -8,7 +10,7 @@ const userRouter = (app, apiPath) => {
     res.send('User all')
   })
 
-  router.post('/signin', (req, res) => {
+  router.post('/signin', validateSchema(createUserSchema), (req, res) => {
     const data = req.body
     res.json(data)
   })
