@@ -7,4 +7,9 @@ const createUserSchema = joi.object({
   password: joi.string().alphanum().min(6).max(15).required()
 })
 
-export { createUserSchema }
+const loginUserSchema = joi.object({
+  email: joi.string().email().required(),
+  password: joi.string().alphanum().required()
+})
+
+export { createUserSchema, loginUserSchema }
