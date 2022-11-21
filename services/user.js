@@ -1,8 +1,14 @@
 import { createToken } from '../util/token.js'
+import MongoLib from '../lib/mongo.js'
 
 class UserService {
-  createUser(user) {
-    return Promise.resolve({ message: 'user created' })
+  constructor() {
+    this.mongoDB = new MongoLib()
+    this.collection = 'users'
+  }
+  async createUser(user) {
+    const result = await this.mongoDB.create(this.collection, user)
+    return Promise.resolve({ message: 'user created', data: result })
   }
 
   login(credentials) {
