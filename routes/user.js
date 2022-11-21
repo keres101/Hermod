@@ -1,6 +1,7 @@
 import express from 'express'
 import { createUserSchema, loginUserSchema } from '../util/schemas/user.js'
 import validateSchema from '../util/middleware/validateSchema.js'
+import validateToken from '../util/middleware/validateToken.js'
 import UserService from '../services/user.js'
 
 const userRouter = (app, apiPath) => {
@@ -40,7 +41,7 @@ const userRouter = (app, apiPath) => {
     }
   )
 
-  router.post('/friend/add', async (req, res, next) => {
+  router.post('/friend/add', validateToken, async (req, res, next) => {
     const friend = req.body
     try {
       const result = await userService.addFriend(friend)
