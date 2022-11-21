@@ -1,23 +1,53 @@
 import express from 'express'
-import { createUserSchema } from '../util/schemas/user.js'
+import { createUserSchema, loginUserSchema } from '../util/schemas/user.js'
 import validateSchema from '../util/middleware/validateSchema.js'
+import UserService from '../services/user.js'
 
 const userRouter = (app, apiPath) => {
   const router = express.Router()
+  const userService = new UserService()
   app.use(`${apiPath}/user`, router)
 
   router.get('/', (req, res) => {
     res.send('User all')
   })
 
-  router.post('/signin', validateSchema(createUserSchema), (req, res) => {
-    const data = req.body
-    res.json(data)
-  })
+  router.post(
+    '/signin',
+    validateSchema(createUserSchema),
+    async (req, res, next) => {
+      const user = req.body
+      try {
+        const result = await userService.createUser(user)
+        res.status(200).json(result)
+      } catch (error) {
+        next(error)
+      }
+    }
+  )
 
-  router.post('/login', (req, res) => {
-    const data = req.body
-    res.json(data)
+  router.post(
+    '/login',
+    validateSchema(loginUserSchema),
+    async (req, res, next) => {
+      const credentials = req.body
+      try {
+        const result = await userService.login(credentials)
+        res.status(200).json(result)
+      } catch (error) {
+        next(error)
+      }
+    }
+  )
+
+  router.post('/friend/add', async (req, res, next) => {
+    const friend = req.body
+    try {
+      const result = await userService.addFriend(friend)
+      res.status(200).json(result)
+    } catch (error) {
+      next(error)
+    }
   })
 }
 
