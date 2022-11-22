@@ -1,8 +1,8 @@
 import express from 'express'
-import dotenv from 'dotenv'
 import userRouter from './routes/user.js'
+import config from './util/config.js'
 
-dotenv.config()
+config.config()
 
 const { PORT, API_PATH } = process.env
 const app = express()

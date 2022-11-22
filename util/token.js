@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
+import config from './config.js'
 
-dotenv.config()
+config.env()
 const { KEY_JWT } = process.env
 
 const createToken = (payload) => {
