@@ -1,0 +1,16 @@
+version: "2.12"
+
+services:
+  app:
+    image: hermod
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+  db:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=monga
+      - MONGO_INITDB_ROOT_PASSWORD=secret123
