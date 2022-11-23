@@ -11,13 +11,17 @@ class UserService {
     return result
   }
 
-  login(credentials) {
-    const token = createToken({ user: 'mariano', id: 'daa' })
+  async login(credentials) {
+    const user = await this.mongoDB.findOne(this.collection, credentials, {
+      password: false
+    })
+    if (!user) {
+      throw new Error()
+    }
+    const token = createToken(user)
     return Promise.resolve({
       token,
-      user: {
-        full_name: 'mariano'
-      }
+      user
     })
   }
 
