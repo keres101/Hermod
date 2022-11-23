@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 userRouter(app, API_PATH)
 
 app.use((error, req, res, next) => {
-  res.json({ message: 'error occurred', error })
+  res.status(400).json({ message: 'error occurred', error })
 })
 
 app.listen(PORT, () => {

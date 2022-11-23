@@ -1,13 +1,26 @@
 import { createToken } from '../util/token.js'
 import MongoLib from '../lib/mongo.js'
+import ChatService from './chat.js'
 
 class UserService {
   constructor() {
     this.mongoDB = new MongoLib()
     this.collection = 'users'
+    this.chatService = new ChatService()
   }
   async createUser(user) {
     const result = await this.mongoDB.create(this.collection, user)
+    return result
+  }
+
+  async getUsersByEmail(emails) {
+    const result = await this.mongoDB.find(
+      this.collection,
+      {
+        email: { $in: emails }
+      },
+      { _id: true, nickname: true }
+    )
     return result
   }
 
@@ -25,8 +38,13 @@ class UserService {
     })
   }
 
-  addFriend(friend) {
-    return Promise.resolve({ message: 'friend added' })
+  async addFriend(user, email) {
+    const chat = {
+      private: true,
+      members: [email, user.email]
+    }
+    const result = await this.chatService.createChat(chat)
+    return result
   }
 }
 

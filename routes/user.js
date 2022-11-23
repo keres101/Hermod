@@ -3,10 +3,13 @@ import { createUserSchema, loginUserSchema } from '../util/schemas/user.js'
 import validateSchema from '../util/middleware/validateSchema.js'
 import validateToken from '../util/middleware/validateToken.js'
 import UserService from '../services/user.js'
+import ChatService from '../services/chat.js'
 
 const userRouter = (app, apiPath) => {
   const router = express.Router()
   const userService = new UserService()
+  const chatService = new ChatService()
+
   app.use(`${apiPath}/user`, router)
 
   router.get('/', (req, res) => {
@@ -36,13 +39,28 @@ const userRouter = (app, apiPath) => {
     }
   })
 
-  router.post('/friend/add', validateToken, async (req, res, next) => {
-    const friend = req.body
+  router.post('/friend/add', validateToken, async (req, res) => {
+    const { email } = req.body
+    const user = req.token
     try {
-      const result = await userService.addFriend(friend)
-      res.status(200).json(result)
+      const result = await userService.addFriend(user, email)
+      res.status(200).json({ message: 'success', data: result })
     } catch (error) {
-      next(error)
+      res.status(400).json({ message: 'error' })
+    }
+  })
+
+  router.post('/chat/create', validateToken, async (req, res) => {
+    const user = req.token
+    const data = req.body
+    data.members.push(user.email)
+    try {
+      const result = await chatService.createChat(data)
+      res.status(200).json({ message: 'chat created', data: result })
+    } catch (error) {
+      res
+        .status(400)
+        .json({ message: 'error creating chat', error: error.message })
     }
   })
 }
