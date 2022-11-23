@@ -11,6 +11,3 @@ services:
       - DB_HOST=db
   db:
     image: mongo
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=monga
-      - MONGO_INITDB_ROOT_PASSWORD=secret123
