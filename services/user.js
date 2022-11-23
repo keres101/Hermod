@@ -8,13 +8,12 @@ class UserService {
   }
   async createUser(user) {
     const result = await this.mongoDB.create(this.collection, user)
-    return Promise.resolve({ message: 'user created', data: result })
+    return result
   }
 
   login(credentials) {
     const token = createToken({ user: 'mariano', id: 'daa' })
     return Promise.resolve({
-      message: 'login successful',
       token,
       user: {
         full_name: 'mariano'

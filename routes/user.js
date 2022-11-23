@@ -20,7 +20,7 @@ const userRouter = (app, apiPath) => {
       const user = req.body
       try {
         const result = await userService.createUser(user)
-        res.status(200).json(result)
+        res.status(200).json({ message: 'user created', data: result })
       } catch (error) {
         next(error)
       }
@@ -34,7 +34,7 @@ const userRouter = (app, apiPath) => {
       const credentials = req.body
       try {
         const result = await userService.login(credentials)
-        res.status(200).json(result)
+        res.status(200).json({ message: 'login successful', data: result })
       } catch (error) {
         next(error)
       }
