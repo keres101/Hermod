@@ -46,7 +46,7 @@ const userRouter = (app, apiPath) => {
       const result = await userService.addFriend(user, email)
       res.status(200).json({ message: 'success', data: result })
     } catch (error) {
-      res.status(400).json({ message: 'error' })
+      res.status(400).json({ message: 'error', error: error.message })
     }
   })
 
