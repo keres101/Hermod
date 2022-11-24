@@ -29,6 +29,20 @@ class ChatService {
     const result = await this.mongoDB.create(this.collection, data)
     return result
   }
+
+  async getChats(user) {
+    console.log(user.email)
+    const chats = await this.mongoDB.find(
+      this.collection,
+      {
+        members: {
+          $elemMatch: { email: user.email }
+        }
+      },
+      { _id: true, private: true, members: true, name: true }
+    )
+    return chats
+  }
 }
 
 export default ChatService
