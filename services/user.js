@@ -32,10 +32,8 @@ class UserService {
       throw new Error()
     }
     const token = createToken(user)
-    return Promise.resolve({
-      token,
-      user
-    })
+    user.token = token
+    return Promise.resolve(user)
   }
 
   async addFriend(user, email) {

@@ -44,12 +44,24 @@ class ChatService {
     return chats
   }
 
-  async getMessages(user, chatId) {
-    const messages = await this.mongoDB.findOne(
+  async getChat(user, chatId) {
+    const chat = await this.mongoDB.findOne(
       this.collection,
-      { _id: chatId },
+      {
+        $and: [
+          { _id: ObjectId(chatId) },
+          {
+            members: {
+              $elemMatch: {
+                email: user.email
+              }
+            }
+          }
+        ]
+      },
       {}
     )
+    return chat
   }
 
   async saveMessage(user, chatId, message) {

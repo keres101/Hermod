@@ -32,7 +32,7 @@ const userRouter = (app, apiPath) => {
     const credentials = req.body
     try {
       const result = await userService.login(credentials)
-      res.status(200).json({ message: 'login successful', data: result })
+      res.status(200).json(result)
     } catch (error) {
       res.status(400).json({ message: 'invalid username or password' })
       // next(error)
@@ -94,10 +94,11 @@ const userRouter = (app, apiPath) => {
     }
   })
 
-  router.get('/chat/:id', validateToken, (req, res) => {
+  router.get('/chat/:id', validateToken, async (req, res) => {
     const id = req.params.id
     const user = req.token
-    return res.status(200).json({ message: 'success' })
+    const result = await chatService.getChat(user, id)
+    return res.status(200).json({ message: 'success', data: result })
   })
 }
 
