@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
 userRouter(app, API_PATH)
 
 app.use((error, req, res, next) => {
+  console.log(error)
   res.status(400).json({ message: 'error occurred', error })
 })
 

@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import MongoLib from '../lib/mongo.js'
 
 class ChatService {
@@ -31,7 +32,6 @@ class ChatService {
   }
 
   async getChats(user) {
-    console.log(user.email)
     const chats = await this.mongoDB.find(
       this.collection,
       {
@@ -42,6 +42,37 @@ class ChatService {
       { _id: true, private: true, members: true, name: true }
     )
     return chats
+  }
+
+  async getMessages(user, chatId) {
+    const messages = await this.mongoDB.findOne(
+      this.collection,
+      { _id: chatId },
+      {}
+    )
+  }
+
+  async saveMessage(user, chatId, message) {
+    message.date = new Date()
+    const result = await this.mongoDB.updatePushArray(
+      this.collection,
+      {
+        $and: [
+          { _id: ObjectId(chatId) },
+          {
+            members: {
+              $elemMatch: {
+                email: user.email
+              }
+            }
+          }
+        ]
+      },
+      { messages: message }
+    )
+    if (result != 1)
+      throw new Error('check if you have permissions for this chat')
+    return result
   }
 }
 

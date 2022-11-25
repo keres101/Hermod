@@ -75,6 +75,30 @@ const userRouter = (app, apiPath) => {
         .json({ message: 'error getting chat', error: error.message || error })
     }
   })
+
+  router.post('/chat/savemessage', validateToken, async (req, res) => {
+    const user = req.token
+    const message = {
+      content: req.body.content,
+      nickname: user.nickname
+    }
+    try {
+      const result = await chatService.saveMessage(
+        user,
+        req.body.chatId,
+        message
+      )
+      res.status(200).json({ message: 'success', result })
+    } catch (err) {
+      res.status(400).json({ message: 'error sending message', error: err })
+    }
+  })
+
+  router.get('/chat/:id', validateToken, (req, res) => {
+    const id = req.params.id
+    const user = req.token
+    return res.status(200).json({ message: 'success' })
+  })
 }
 
 export default userRouter
