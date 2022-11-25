@@ -38,7 +38,7 @@ class UserService {
 
   async addFriend(user, email) {
     const chat = {
-      private: true,
+      duo: true,
       members: [email, user.email]
     }
     const result = await this.chatService.createChat(chat)

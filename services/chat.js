@@ -16,12 +16,12 @@ class ChatService {
       { _id: true, nickname: true, email: true }
     )
     if (users.length < 2) throw new Error('Minimum 2 users, check the emails')
-    if (data.private === true) {
+    if (data.duo === true) {
       const existChat = await this.mongoDB.findOne(this.collection, {
         $and: [
           { members: { $elemMatch: { email: data.members[0] } } },
           { members: { $elemMatch: { email: data.members[1] } } },
-          { private: true }
+          { duo: true }
         ]
       })
       if (!!existChat) throw new Error('Already exist chat')
@@ -39,7 +39,7 @@ class ChatService {
           $elemMatch: { email: user.email }
         }
       },
-      { _id: true, private: true, members: true, name: true }
+      { _id: true, duo: true, members: true, name: true }
     )
     return chats
   }

@@ -68,7 +68,7 @@ const userRouter = (app, apiPath) => {
     const user = req.token
     try {
       const chats = await chatService.getChats(user)
-      res.status(200).json({ message: 'success', data: chats })
+      res.status(200).json(chats)
     } catch (error) {
       res
         .status(400)
@@ -99,14 +99,12 @@ const userRouter = (app, apiPath) => {
     const user = req.token
     try {
       const result = await chatService.getChat(user, id)
-      return res.status(200).json({ message: 'success', data: result })
+      return res.status(200).json(result)
     } catch (error) {
-      return res
-        .status(300)
-        .json({
-          message: 'check if you belong to this chat',
-          error: error.message
-        })
+      return res.status(300).json({
+        message: 'check if you belong to this chat',
+        error: error.message
+      })
     }
   })
 }
