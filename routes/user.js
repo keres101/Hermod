@@ -97,8 +97,17 @@ const userRouter = (app, apiPath) => {
   router.get('/chat/:id', validateToken, async (req, res) => {
     const id = req.params.id
     const user = req.token
-    const result = await chatService.getChat(user, id)
-    return res.status(200).json({ message: 'success', data: result })
+    try {
+      const result = await chatService.getChat(user, id)
+      return res.status(200).json({ message: 'success', data: result })
+    } catch (error) {
+      return res
+        .status(300)
+        .json({
+          message: 'check if you belong to this chat',
+          error: error.message
+        })
+    }
   })
 }
 

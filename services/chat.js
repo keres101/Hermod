@@ -61,6 +61,8 @@ class ChatService {
       },
       {}
     )
+    if (chat === null)
+      throw new Error('The chat does not exist or you do not have permissions')
     return chat
   }
 
