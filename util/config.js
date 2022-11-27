@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 
 const _config = () => {
-  dotenv.config()
+  env()
 }
 
 const env = () => {
