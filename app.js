@@ -17,13 +17,13 @@ app.get('/', (req, res) => {
   res.send('Welcome to HERMOD')
 })
 
-userRouter(app, API_PATH)
-new SocketService(server).connect()
+// userRouter(app, API_PATH)
+// new SocketService(server).connect()
 
-app.use((error, req, res, next) => {
-  console.log(error)
-  res.status(400).json({ message: 'error occurred', error })
-})
+// app.use((error, req, res, next) => {
+//   console.log(error)
+//   res.status(400).json({ message: 'error occurred', error })
+// })
 
 server.listen(PORT, () => {
   console.log('Server listening on port ' + PORT)
