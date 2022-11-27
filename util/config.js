@@ -5,7 +5,9 @@ const _config = () => {
 }
 
 const env = () => {
-  dotenv.config()
+  if (process.env.NODE_ENV === 'development') {
+    dotenv.config()
+  }
 }
 
 const config = {
