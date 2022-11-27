@@ -14,7 +14,7 @@ const { PORT, API_PATH } = process.env
 app.use(express.json())
 
 app.get('/', (req, res) => {
-  res.send('Welcome to HERMOD')
+  res.send('Welcome to HERMOD :D')
 })
 
 // userRouter(app, API_PATH)
