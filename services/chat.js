@@ -66,7 +66,7 @@ class ChatService {
     return chat
   }
 
-  async saveMessage(user, chatId, message) {
+  async saveMessage(user, chatId, message, server) {
     message.date = new Date()
     const result = await this.mongoDB.updatePushArray(
       this.collection,

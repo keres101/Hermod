@@ -5,7 +5,7 @@ import validateToken from '../util/middleware/validateToken.js'
 import UserService from '../services/user.js'
 import ChatService from '../services/chat.js'
 
-const userRouter = (app, apiPath) => {
+const userRouter = (app, apiPath, socket) => {
   const router = express.Router()
   const userService = new UserService()
   const chatService = new ChatService()
@@ -88,6 +88,7 @@ const userRouter = (app, apiPath) => {
         req.body.chatId,
         message
       )
+      socket.sendMessage(req.body.chatId, message.content, user)
       res.status(200).json({ message: 'success', result })
     } catch (err) {
       res.status(400).json({ message: 'error sending message', error: err })

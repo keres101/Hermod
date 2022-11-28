@@ -17,8 +17,8 @@ app.get('/', (req, res) => {
   res.send('Welcome to HERMOD :D')
 })
 
-userRouter(app, API_PATH)
-new SocketService(server).connect()
+const socket = new SocketService(server)
+userRouter(app, API_PATH, socket)
 
 app.use((error, req, res, next) => {
   console.log(error)
